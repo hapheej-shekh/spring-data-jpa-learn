@@ -12,7 +12,7 @@ public class UserDto {
     private String city;
     private Integer zipcode;
     
-    // Class based projection need Query in Repository as well
+    // Class-based/DTO projection need Query in Repository as well
     
     public UserDto(String firstName, String lastName, String city, Integer zipcode) {
         this.firstName = firstName;

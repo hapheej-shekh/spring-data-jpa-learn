@@ -4,31 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jpa.learn.util.EntityListener;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper=true)
+@EntityListeners(EntityListener.class)	// Entity life cycle method calls
 @NamedQuery(name="findByTitle", // The name of the query
 	query="SELECT a FROM Article a WHERE a.title = :title")
-public class Article {
+public class Article extends BaseEntity {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="articleId", nullable=false)
-	private Integer id;
 	private String author;
 	private String title;
 	private String desc;
@@ -50,7 +47,7 @@ public class Article {
 	
 	public String toString() {
 		
-		return "{Id: "+this.id+", Auther: "+this.author+", Title: "
+		return "{Id: "+this.getId()+", Auther: "+this.author+", Title: "
 				+this.title+", Desc: "+this.desc+"}";
 	}
 }

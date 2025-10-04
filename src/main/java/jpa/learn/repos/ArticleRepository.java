@@ -3,9 +3,13 @@ package jpa.learn.repos;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.QueryHint;
+
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
@@ -20,8 +24,15 @@ public interface ArticleRepository extends CrudRepository<Article, Integer> {
 	
 	// Option B: Explicitly reference the named query using @Query
     @Query(name="findByTitle") // Referencing the named query by its name
+    @EntityGraph(attributePaths="comments") //Fetch comments eagerly for this Query only [Single Query]
     Optional<Article> findArticleBySpecificTitle(String title);
 	
+    @QueryHints({
+        @QueryHint(name="org.hibernate.readOnly", value="true"),
+        @QueryHint(name="javax.persistence.query.timeout", value="5000")
+    })
+    @Query("SELECT a FROM Article a WHERE a.title = :title")
+    List<Article> findArticleByTitle(@Param("title") String title);
 	
     /* --- Named Parameters- @Param ---	*/
     

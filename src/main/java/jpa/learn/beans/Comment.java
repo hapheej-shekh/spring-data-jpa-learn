@@ -18,12 +18,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
 @Data
-public class Comment {
+@EqualsAndHashCode(callSuper=true)
+@NoArgsConstructor
+public class Comment extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
